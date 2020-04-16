@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AppService.Interface\Service.Interface.csproj" />
+    <ProjectReference Include="..\Repo.Implementation\Repo.Implementation.csproj" />
+    <ProjectReference Include="..\Repo.Interface\Repo.Interface.csproj" />
+    <ProjectReference Include="..\Service.Implementation\Service.Implementation.csproj" />
+  </ItemGroup>
+
+</Project>
