@@ -13,6 +13,7 @@
     <ProjectReference Include="..\Repo.Implementation\Repo.Implementation.csproj" />
     <ProjectReference Include="..\Repo.Interface\Repo.Interface.csproj" />
     <ProjectReference Include="..\Service.Implementation\Service.Implementation.csproj" />
+    <ProjectReference Include="..\Service.Interface\Service.Interface.csproj" />
   </ItemGroup>
 
 </Project>

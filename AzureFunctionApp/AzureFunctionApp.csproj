@@ -13,6 +13,7 @@
     <ProjectReference Include="..\AppService.Interface\Service.Interface.csproj" />
     <ProjectReference Include="..\DI\DI.csproj" />
     <ProjectReference Include="..\DTO\Model.csproj" />
+    <ProjectReference Include="..\Service.Interface\Service.Interface.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
