@@ -4,6 +4,7 @@ using System.Text;
 
 namespace AzureFunctionApp.ModelView
 {
+    [Serializable]
     public class EmployeeMV : BaseView
     {
         public long CompanyID { get; set; }

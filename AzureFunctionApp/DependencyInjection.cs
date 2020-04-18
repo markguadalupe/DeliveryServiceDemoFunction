@@ -11,6 +11,7 @@ namespace AzureFunctionApp
         {
             builder.Services.AddSingleton<ICompanyFunction, CompanyFunction>();
             builder.Services.AddSingleton<IEmployeeFunction, EmployeeFunction>();
+            builder.Services.AddSingleton<IDeliveryFunction, DeliveryFunction>();
         }
     }
 }

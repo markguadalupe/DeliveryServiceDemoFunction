@@ -10,31 +10,39 @@ using AzureFunctionApp.Interface;
 using Mapster;
 using Model;
 using AzureFunctionApp.ModelView;
-using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace AzureFunctionApp.Implementation
 {
-    public class EmployeeFunction : IEmployeeFunction
+    public class EmployeeFunction : GenericFunction<long, EmployeeMV, Employee>, IEmployeeFunction
     {
         private readonly IEmployeeService employeeService;
 
-        public EmployeeFunction(IEmployeeService EmployeeService)
+        public EmployeeFunction(IEmployeeService employeeService) : base(employeeService)
         {
-            this.employeeService = EmployeeService;
+            this.employeeService = employeeService;
         }
 
         [FunctionName("Employee_Create")]
-        public async Task<IActionResult> Create(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "Employee")] EmployeeMV model, ILogger log)
+        public override async Task<IActionResult> Create([HttpTrigger(AuthorizationLevel.Function, "post", Route = "Employee")] HttpRequest req, ILogger log)
         {
             try
             {
                 log.LogInformation("");
 
-                var entity = model.Adapt<Employee>();
-                model.ID = await Task.Run(() => { return employeeService.Create(entity); });
+                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
-                return new OkObjectResult(Task.FromResult(model));
+                EmployeeMV view = JsonConvert.DeserializeObject<EmployeeMV>(requestBody);
+
+                var model = view.Adapt<Employee>();
+
+                var id = await Task.Run(() => { return employeeService.Create(model); });
+
+                view = model.Adapt<EmployeeMV>();
+                view.ID = id;
+
+                return new OkObjectResult(Task.FromResult(view));
             }
             catch (Exception ex)
             {
@@ -43,59 +51,17 @@ namespace AzureFunctionApp.Implementation
         }
 
         [FunctionName("Employee_Update")]
-        public async Task<IActionResult> Update(
-            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "Employee")] EmployeeMV model, ILogger log)
+        public override async Task<IActionResult> Update(
+            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "Employee")] HttpRequest req, ILogger log)
         {
-            try
-            {
-                log.LogInformation("");
-
-                var entity = model.Adapt<Employee>();
-                var result = await Task.Run(() => { return employeeService.Edit(entity); });
-                model = result.Adapt<EmployeeMV>();
-
-                return new OkObjectResult(Task.FromResult(model));
-            }
-            catch (Exception ex)
-            {
-                return new BadRequestObjectResult(ex.Message);
-            }
+            return await base.Update(req, log);
         }
 
         [FunctionName("Employee_Delete")]
-        public async Task<IActionResult> Delete(
+        public override async Task<IActionResult> Delete(
             [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "Employee")] HttpRequest req, ILogger log)
         {
-            try
-            {
-                log.LogInformation("");
-
-                long.TryParse(req.Query["id"], out long id);
-
-                await Task.Run(() => { employeeService.Delete(id); });
-
-                return new OkObjectResult(Task.FromResult(true));
-            }
-            catch (Exception ex)
-            {
-                return new BadRequestObjectResult(ex.Message);
-            }
-        }
-
-        [FunctionName("Employee_GetAll")]
-        public async Task<IActionResult> GetAll(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "Employee")] HttpRequest req)
-        {
-            try
-            {
-                var result = await Task.Run(() => { return employeeService.GetAll(); });
-
-                return new OkObjectResult(Task.FromResult(result.Adapt<IList<EmployeeMV>>()));
-            }
-            catch (Exception ex)
-            {
-                return new BadRequestObjectResult(ex.Message);
-            }
+            return await base.Delete(req, log);
         }
     }
 }

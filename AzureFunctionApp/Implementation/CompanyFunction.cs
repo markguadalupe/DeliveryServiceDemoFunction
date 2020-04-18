@@ -11,30 +11,40 @@ using Mapster;
 using Model;
 using AzureFunctionApp.ModelView;
 using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace AzureFunctionApp.Implementation
 {
-    public class CompanyFunction : ICompanyFunction
+    public class CompanyFunction : GenericFunction<long, CompanyMV, Company>, ICompanyFunction
     {
         private readonly ICompanyService companyService;
 
-        public CompanyFunction(ICompanyService companyService)
+        public CompanyFunction(ICompanyService companyService) : base(companyService)
         {
             this.companyService = companyService;
         }
 
         [FunctionName("Company_Create")]
-        public async Task<IActionResult> Create(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "Company")] CompanyMV model, ILogger log)
+        public override async Task<IActionResult> Create(
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "Company")] HttpRequest req, ILogger log)
         {
             try
             {
                 log.LogInformation("");
 
-                var entity = model.Adapt<Company>();
-                model.ID = await Task.Run(() => { return companyService.Create(entity); });
+                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
-                return new OkObjectResult(Task.FromResult(model));
+                CompanyMV view = JsonConvert.DeserializeObject<CompanyMV>(requestBody);
+
+                var model = view.Adapt<Company>();
+
+                var id = await Task.Run(() => { return companyService.Create(model); });
+
+                view = model.Adapt<CompanyMV>();
+                view.ID = id;
+
+                return new OkObjectResult(Task.FromResult(view));
             }
             catch (Exception ex)
             {
@@ -43,59 +53,18 @@ namespace AzureFunctionApp.Implementation
         }
 
         [FunctionName("Company_Update")]
-        public async Task<IActionResult> Update(
-            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "Company")] CompanyMV model, ILogger log)
+        public override async Task<IActionResult> Update(
+            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "Company")] HttpRequest req, ILogger log)
         {
-            try
-            {
-                log.LogInformation("");
-
-                var entity = model.Adapt<Company>();
-                var result = await Task.Run(() => { return companyService.Edit(entity); });
-                model = result.Adapt<CompanyMV>();
-
-                return new OkObjectResult(Task.FromResult(model));
-            }
-            catch (Exception ex)
-            {
-                return new BadRequestObjectResult(ex.Message);
-            }
+            return await base.Update(req, log);
         }
 
         [FunctionName("Company_Delete")]
-        public async Task<IActionResult> Delete(
+        public override async Task<IActionResult> Delete(
             [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "Company")] HttpRequest req, ILogger log)
         {
-            try
-            {
-                log.LogInformation("");
 
-                long.TryParse(req.Query["id"], out long id);
-
-                await Task.Run(() => { companyService.Delete(id); });
-
-                return new OkObjectResult(Task.FromResult(true));
-            }
-            catch (Exception ex)
-            {
-                return new BadRequestObjectResult(ex.Message);
-            }
-        }
-
-        [FunctionName("Company_GetAll")]
-        public async Task<IActionResult> GetAll(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "Company")] HttpRequest req)
-        {
-            try
-            {
-                var result = await Task.Run(() => { return companyService.GetAll(); });
-
-                return new OkObjectResult(Task.FromResult(result.Adapt<IList<CompanyMV>>()));
-            }
-            catch (Exception ex)
-            {
-                return new BadRequestObjectResult(ex.Message);
-            }
+            return await base.Delete(req, log);
         }
 
         [FunctionName("Company_NonGenericMethodAsync")]

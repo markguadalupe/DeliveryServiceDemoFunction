@@ -13,7 +13,8 @@ namespace Model
 
         public string Name { get; set; }
 
-        [IgnoreSelect, IgnoreInsert, IgnoreUpdate]
+        [NotMapped]
+
         public List<Employee> Employees { get; set; }
     }
 }

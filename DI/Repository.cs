@@ -11,6 +11,10 @@ namespace DI
         {
             builder.Services.AddSingleton<ICompanyRepo, CompanyRepo>();
             builder.Services.AddSingleton<IEmployeeRepo, EmployeeRepo>();
+            builder.Services.AddSingleton<IDeliveryItemRepo, DeliveryItemRepo>();
+            builder.Services.AddSingleton<IDeliveryNoteRepo, DeliveryNoteRepo>();
+            builder.Services.AddSingleton<IDeliveryRepo, DeliveryRepo>();
+            builder.Services.AddSingleton<IDeliveryStatusRepo, DeliveryStatusRepo>();
         }
     }
 }

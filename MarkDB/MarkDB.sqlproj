@@ -62,5 +62,9 @@
   <ItemGroup>
     <Build Include="dbo\Tables\tblEmployee.sql" />
     <Build Include="dbo\Tables\tblCompany.sql" />
+    <Build Include="dbo\Tables\tblDeliveryStatus.sql" />
+    <Build Include="dbo\Tables\tblDeliveryNote.sql" />
+    <Build Include="dbo\Tables\tblDeliveryItem.sql" />
+    <Build Include="dbo\Tables\tblDelivery.sql" />
   </ItemGroup>
 </Project>

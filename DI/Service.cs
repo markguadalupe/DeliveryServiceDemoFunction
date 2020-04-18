@@ -11,6 +11,7 @@ namespace DI
         {
             builder.Services.AddSingleton<ICompanyService, CompanyService>();
             builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
+            builder.Services.AddSingleton<IDeliveryService, DeliveryService>();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Model
         public long CompanyID { get; set; }
         public string Name { get; set; }
 
-        [IgnoreSelect, IgnoreInsert, IgnoreUpdate]
+        [NotMapped]
         public Company Company { get; set; }
 
     }
