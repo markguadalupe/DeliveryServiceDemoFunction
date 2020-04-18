@@ -22,6 +22,7 @@ namespace Model.Enums
     {
         PickupRequested,
         PickupConfirmed,
+        InTransit,
         DropoffRequested,
         DropoffConfirmed
     }
