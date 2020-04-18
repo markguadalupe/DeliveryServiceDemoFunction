@@ -11,7 +11,6 @@ namespace Model
         public long ConsigneeID { get; set; }
 
         public long CreatedByID { get; set; }
-        public DateTime CreatedOn { get; set; }
 
         [NotMapped]
         public Company Consignor { get; set; }

@@ -6,7 +6,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Service.Interface;
-using AzureFunctionApp.Interface;
 using Mapster;
 using Model;
 using AzureFunctionApp.ModelView;

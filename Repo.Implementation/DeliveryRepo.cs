@@ -25,6 +25,7 @@ namespace Repo.Implementation
                 foreach (var item in entity.DeliveryItems)
                 {
                     item.DeliveryID = deliveryID;
+                    item.CreatedOn = entity.CreatedOn;
                     item.ID = sqlConnection.Insert<long, DeliveryItem>(item, sqlTransaction);
                 }
 
@@ -85,6 +86,30 @@ namespace Repo.Implementation
             }
 
             return list;
+        }
+
+        public IList<DeliveryItem> GetItems(long deliverID)
+        {
+            using SqlConnection sqlConnection = GetOpenConnection();
+            using SqlTransaction sqlTransaction = sqlConnection.BeginTransaction(IsolationLevel.ReadCommitted);
+
+            return sqlConnection.GetList<DeliveryItem>(new { DeliveryID = deliverID }, sqlTransaction).ToList();
+        }
+
+        public IList<DeliveryStatus> GetStatus(long deliverID)
+        {
+            using SqlConnection sqlConnection = GetOpenConnection();
+            using SqlTransaction sqlTransaction = sqlConnection.BeginTransaction(IsolationLevel.ReadCommitted);
+
+            return sqlConnection.GetList<DeliveryStatus>(new { DeliveryID = deliverID }, sqlTransaction).ToList();
+        }
+
+        public IList<DeliveryNote> GetNotes(long deliverID)
+        {
+            using SqlConnection sqlConnection = GetOpenConnection();
+            using SqlTransaction sqlTransaction = sqlConnection.BeginTransaction(IsolationLevel.ReadCommitted);
+
+            return sqlConnection.GetList<DeliveryNote>(new { DeliveryID = deliverID }, sqlTransaction).ToList();
         }
     }
 }

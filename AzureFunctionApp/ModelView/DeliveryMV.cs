@@ -9,7 +9,6 @@ namespace AzureFunctionApp.ModelView
         public long ConsignorID { get; set; }
         public long ConsigneeID { get; set; }
         public long CreatedByID { get; set; }
-        public DateTime CreatedOn { get; set; }
 
         public CompanyMV Consignor { get; set; }
 

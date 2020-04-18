@@ -7,5 +7,8 @@ namespace Repo.Interface
 {
     public interface IDeliveryRepo : IGenericRepo<long, Delivery>
     {
+        IList<DeliveryItem> GetItems(long deliverID);
+        IList<DeliveryStatus> GetStatus(long deliverID);
+        IList<DeliveryNote> GetNotes(long deliverID);
     }
 }

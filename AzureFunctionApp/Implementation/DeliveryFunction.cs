@@ -6,7 +6,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Service.Interface;
-using AzureFunctionApp.Interface;
 using Mapster;
 using Model;
 using AzureFunctionApp.ModelView;
@@ -70,6 +69,61 @@ namespace AzureFunctionApp.Implementation
         {
 
             return await base.Get(req, log);
+        }
+
+        [FunctionName("Delivery_GetItems")]
+        public async Task<IActionResult> GetItems(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "Delivery/Items")] HttpRequest req, ILogger log)
+        {
+            try
+            {
+                long deliveryID = (long)Convert.ChangeType(req.Query["deliveryID"].ToString(), typeof(long));
+
+                var result = await Task.Run(() => { return deliveryService.GetItems(deliveryID); });
+
+                return new OkObjectResult(Task.FromResult(result.Adapt<IList<DeliveryItemMV>>()));
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(ex.Message);
+            }
+        }
+
+        [FunctionName("Delivery_GetNotes")]
+        public async Task<IActionResult> GetNotes(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "Delivery/Notes")] HttpRequest req, ILogger log)
+        {
+            try
+            {
+                long deliveryID = (long)Convert.ChangeType(req.Query["deliveryID"].ToString(), typeof(long));
+
+                var result = await Task.Run(() => { return deliveryService.GetNotes(deliveryID); });
+
+                return new OkObjectResult(Task.FromResult(result.Adapt<IList<DeliveryNoteMV>>()));
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(ex.Message);
+            }
+        }
+
+        [FunctionName("Delivery_GetStatus")]
+        public async Task<IActionResult> GetStatus(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "Delivery/Status")] HttpRequest req, ILogger log)
+        {
+            try
+            {
+                long deliveryID = (long)Convert.ChangeType(req.Query["deliveryID"].ToString(), typeof(long));
+
+                var result = await Task.Run(() => { return deliveryService.GetStatus(deliveryID); });
+
+
+                return new OkObjectResult(Task.FromResult(result.Adapt<IList<DeliveryStatusMV>>()));
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(ex.Message);
+            }
         }
     }
 }

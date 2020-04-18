@@ -10,9 +10,8 @@ namespace Model
 
         [Column("DeliveryStatus")]
         public Enums.DeliveryStatus Status { get; set; }
-        public long Location { get; set; }
+        public string Location { get; set; }
         public long CreatedByID { get; set; }
-        public DateTime CreatedOn { get; set; }
 
         [NotMapped]
         public Delivery Delivery { get; set; }

@@ -27,6 +27,7 @@ namespace Repo.Implementation
 
             try
             {
+                entity.CreatedOn = DateTime.Now;
                 TKey id = sqlConnection.Insert<TKey, TEntity>(entity, sqlTransaction);
 
                 sqlTransaction.Commit();

@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using System;
 
 namespace Model
 {
@@ -6,5 +7,7 @@ namespace Model
     {
         [Key]
         public long ID { get; set; }
+
+        public DateTime CreatedOn { get; set; }
     }
 }

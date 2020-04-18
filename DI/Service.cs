@@ -10,8 +10,10 @@ namespace DI
         public static void Configure(IFunctionsHostBuilder builder)
         {
             builder.Services.AddSingleton<ICompanyService, CompanyService>();
-            builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
+            builder.Services.AddSingleton<IDeliveryNoteService, DeliveryNoteService>();
             builder.Services.AddSingleton<IDeliveryService, DeliveryService>();
+            builder.Services.AddSingleton<IDeliveryStatusService, DeliveryStatusService>();
+            builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
         }
     }
 }

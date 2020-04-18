@@ -10,11 +10,11 @@ namespace DI
         public static void Configure(IFunctionsHostBuilder builder)
         {
             builder.Services.AddSingleton<ICompanyRepo, CompanyRepo>();
-            builder.Services.AddSingleton<IEmployeeRepo, EmployeeRepo>();
             builder.Services.AddSingleton<IDeliveryItemRepo, DeliveryItemRepo>();
             builder.Services.AddSingleton<IDeliveryNoteRepo, DeliveryNoteRepo>();
             builder.Services.AddSingleton<IDeliveryRepo, DeliveryRepo>();
             builder.Services.AddSingleton<IDeliveryStatusRepo, DeliveryStatusRepo>();
+            builder.Services.AddSingleton<IEmployeeRepo, EmployeeRepo>();
         }
     }
 }
