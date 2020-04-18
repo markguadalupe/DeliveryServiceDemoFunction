@@ -20,8 +20,9 @@ namespace Model.Enums
     [JsonConverter(typeof(StringEnumConverter))]
     public enum DeliveryStatus : int
     {
-        Requested,
-        OnDelivery,
-        Delivered
+        PickupRequested,
+        PickupConfirmed,
+        DropoffRequested,
+        DropoffConfirmed
     }
 }
