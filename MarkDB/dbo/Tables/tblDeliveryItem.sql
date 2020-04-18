@@ -4,8 +4,11 @@
     [ItemCount]       DECIMAL (18)   NOT NULL,
     [ItemUnit]        INT            NOT NULL,
     [ItemDescription] NVARCHAR (100) NOT NULL,
-    [ItemStatus]      NCHAR (10)     NULL,
+    [ItemStatus]      NCHAR (10)     NOT NULL,
+    [CreatedOn]       DATETIME       NOT NULL,
     CONSTRAINT [PK_tblDeliveryItem] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_tblDeliveryItem_tblDelivery] FOREIGN KEY ([DeliveryID]) REFERENCES [dbo].[tblDelivery] ([ID])
 );
+
+
 
