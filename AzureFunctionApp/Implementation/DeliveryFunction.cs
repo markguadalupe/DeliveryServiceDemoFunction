@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace AzureFunctionApp.Implementation
 {
-    public class DeliveryFunction : GenericFunction<long, DeliveryMV, Delivery>, IDeliveryFunction
+    public class DeliveryFunction : GenericFunction<long, DeliveryMV, Delivery>
     {
         private readonly IDeliveryService deliveryService;
 

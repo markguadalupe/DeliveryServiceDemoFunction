@@ -14,6 +14,19 @@ namespace Service.Implementation
             this.companyRepo = companyRepo;
         }
 
+        public override Company Edit(long id, Company model)
+        {
+            var entity = companyRepo.Get(id);
+
+            if (entity != null)
+            {
+                entity.Name = model.Name;
+                return companyRepo.Edit(entity);
+            }
+
+            return model;
+        }
+
         public void NonGenericMethod()
         {
             companyRepo.NonGenericMethod();

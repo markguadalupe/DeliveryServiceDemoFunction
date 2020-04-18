@@ -16,13 +16,21 @@ using Newtonsoft.Json;
 
 namespace AzureFunctionApp.Implementation
 {
-    public class CompanyFunction : GenericFunction<long, CompanyMV, Company>, ICompanyFunction
+    public class CompanyFunction : GenericFunction<long, CompanyMV, Company>
     {
         private readonly ICompanyService companyService;
 
         public CompanyFunction(ICompanyService companyService) : base(companyService)
         {
             this.companyService = companyService;
+        }
+
+        [FunctionName("Company_Get")]
+        public override async Task<IActionResult> Get(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "Company")] HttpRequest req, ILogger log)
+        {
+
+            return await base.Get(req, log);
         }
 
         [FunctionName("Company_Create")]

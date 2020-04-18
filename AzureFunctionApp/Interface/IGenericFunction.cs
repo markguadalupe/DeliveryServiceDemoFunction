@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Model;
 using AzureFunctionApp.ModelView;
+using System;
 
 namespace AzureFunctionApp.Interface
 {
     public interface IGenericFunction<TKey, TView, TModel>
         where TView : BaseView
         where TModel : BaseModel
+        where TKey : IConvertible
     {
         Task<IActionResult> Create([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest req, ILogger log);
 

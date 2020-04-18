@@ -12,7 +12,7 @@ namespace AzureFunctionApp
 
             DI.Repository.Configure(builder);
             DI.Service.Configure(builder);
-            DependencyInjection.Configure(builder);
+            //DependencyInjection.Configure(builder);
         }
     }
 }

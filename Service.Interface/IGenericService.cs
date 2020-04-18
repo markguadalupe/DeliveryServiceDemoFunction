@@ -10,7 +10,7 @@ namespace Service.Interface
 
         IList<TModel> Create(IList<TModel> models);
 
-        TModel Edit(TModel model);
+        TModel Edit(TKey id, TModel model);
 
         void Delete(TKey id);
 

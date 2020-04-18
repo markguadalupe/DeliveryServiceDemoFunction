@@ -31,9 +31,9 @@ namespace Service.Implementation
             genericRepo.Delete(id);
         }
 
-        public virtual TModel Edit(TModel model)
+        public virtual TModel Edit(TKey id, TModel model)
         {
-            return genericRepo.Edit(model);
+            throw new NotImplementedException();
         }
 
         public virtual TModel Get(TKey id)

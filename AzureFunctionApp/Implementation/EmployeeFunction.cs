@@ -15,13 +15,21 @@ using Newtonsoft.Json;
 
 namespace AzureFunctionApp.Implementation
 {
-    public class EmployeeFunction : GenericFunction<long, EmployeeMV, Employee>, IEmployeeFunction
+    public class EmployeeFunction : GenericFunction<long, EmployeeMV, Employee>
     {
         private readonly IEmployeeService employeeService;
 
         public EmployeeFunction(IEmployeeService employeeService) : base(employeeService)
         {
             this.employeeService = employeeService;
+        }
+
+        [FunctionName("Employee_Get")]
+        public override async Task<IActionResult> Get(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "Employee")] HttpRequest req, ILogger log)
+        {
+
+            return await base.Get(req, log);
         }
 
         [FunctionName("Employee_Create")]

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Service.Interface;
 using Repo.Interface;
 using Model;
+using Enums = Model.Enums;
 
 namespace Service.Implementation
 {
@@ -16,7 +17,7 @@ namespace Service.Implementation
         {
             model.CreatedOn = DateTime.Now;
 
-            model.DeliveryStatus.Add(new DeliveryStatus { CreatedByID = model.CreatedByID, CreatedOn = model.CreatedOn });
+            model.DeliveryStatus.Add(new DeliveryStatus { Status = Enums.DeliveryStatus.Requested, CreatedByID = model.CreatedByID, CreatedOn = model.CreatedOn });
 
             return base.Create(model);
         }

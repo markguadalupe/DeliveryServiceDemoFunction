@@ -19,6 +19,7 @@ namespace AzureFunctionApp.Implementation
     public class GenericFunction<TKey, TView, TModel> : IGenericFunction<TKey, TView, TModel>
         where TView : BaseView
         where TModel : BaseModel
+        where TKey : IConvertible
     {
         private readonly IGenericService<TKey, TModel> genericService;
         public GenericFunction(IGenericService<TKey, TModel> genericService)
@@ -56,9 +57,7 @@ namespace AzureFunctionApp.Implementation
             {
                 log.LogInformation("");
 
-                Type type = req.Query["id"].ToString().GetType();
-
-                TKey id = (TKey)Activator.CreateInstance(type);
+                TKey id = (TKey)Convert.ChangeType(req.Query["id"].ToString(), typeof(TKey));
 
                 await Task.Run(() => { genericService.Delete(id); });
 
@@ -76,9 +75,7 @@ namespace AzureFunctionApp.Implementation
             {
                 log.LogInformation("");
 
-                Type type = req.Query["id"].ToString().GetType();
-
-                TKey id = (TKey)Activator.CreateInstance(type);
+                TKey id = (TKey)Convert.ChangeType(req.Query["id"].ToString(), typeof(TKey));
 
                 var result = await Task.Run(() => { return genericService.Get(id); });
 
@@ -106,9 +103,8 @@ namespace AzureFunctionApp.Implementation
             {
                 log.LogInformation("");
 
-                Type type = req.Query["id"].ToString().GetType();
 
-                TKey id = (TKey)Activator.CreateInstance(type);
+                TKey id = (TKey)Convert.ChangeType(req.Query["id"].ToString(), typeof(TKey));
 
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
@@ -116,7 +112,7 @@ namespace AzureFunctionApp.Implementation
 
                 var model = view.Adapt<TModel>();
 
-                var result = await Task.Run(() => { return genericService.Edit(model); });
+                var result = await Task.Run(() => { return genericService.Edit(id, model); });
                 view = result.Adapt<TView>();
 
                 return new OkObjectResult(Task.FromResult(view));
