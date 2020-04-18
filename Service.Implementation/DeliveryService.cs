@@ -19,7 +19,7 @@ namespace Service.Implementation
         {
             model.CreatedOn = DateTime.Now;
 
-            model.DeliveryStatus.Add(new DeliveryStatus { Status = Enums.DeliveryStatus.Requested, CreatedByID = model.CreatedByID, CreatedOn = model.CreatedOn });
+            model.DeliveryStatus.Add(new DeliveryStatus { Status = Enums.DeliveryStatus.PickupRequested, CreatedByID = model.CreatedByID, CreatedOn = model.CreatedOn });
 
             return base.Create(model);
         }
